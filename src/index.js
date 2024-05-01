@@ -1,12 +1,16 @@
 
 const registerForm = document.querySelector("#registration")
 
+
 const userName = registerForm.elements["username"]
 const email = registerForm.elements["email"]
 const password = registerForm.elements["password"]
 const passwordCheck = registerForm.elements["passwordCheck"]
 const terms = registerForm.elements["terms"]
 const localStorage=[]
+
+
+
 
 function alert(message) {
   const errorEl = document.getElementById('errorDisplay');
@@ -175,6 +179,7 @@ function validateRegister(event) {
     password.value=""
     passwordCheck.value=""
     email.value=""
+    terms.checked=false
     //hacer focus en el username
     userName.focus()
   }
@@ -182,5 +187,60 @@ function validateRegister(event) {
 
 }
 
+const loginForm=document.getElementById("login")
+const userNameLogin =loginForm.elements["username"]
+const passwordLogin = loginForm.elements["passowrd"]
+const persistLogin = loginForm.elements["persist"]
+
+
+function validateUsernameLogin(){
+  if(userNameLogin===""){
+    alert(`The username cannot be blank.`)
+    userNameLogin.focus()
+    return false  
+  }
+
+  if (password.value.toUpperCase().match(PatternUsername) !== null) {
+    alert(`Password cannot contain the username.`)
+    password.focus()
+    return false
+  }
+}
+
+function validateLogin(event){
+  event.preventDefault()
+
+  if(userNameLogin===""){
+    alert(`The username cannot be blank.`)
+    userNameLogin.focus()
+    event.returnValue = false;
+    return false;
+  } else if(passwordLogin===""){
+    alert(`The password cannot be blank.`)
+    passwordLogin.focus()
+    event.returnValue = false;
+    return false;
+  } else  if(localStorage.filter(function(user){
+    return ((user.userName===userNameLogin.value.toLowerCase()) && (user.password===passwordLogin))
+
+  })){
+    alert(`The username or password doesn't exist in my wonderful database`)
+    userNameLogin.focus()
+    event.returnValue=false
+    return false
+  
+  } else {
+    if(!persistLogin.checked){
+      success('You are now login '+userName.value)
+  } else {
+    success('You are now login '+userName.value+ 'And you be permanently login but this is a fantasy world')
+  }
+  userNameLogin.value=""
+  passwordLogin.value=""
+  persistLogin.checked=false
+
+}
 
 registerForm.addEventListener('submit', validateRegister)
+
+loginForm.addEventListener('submit',validateLogin)
