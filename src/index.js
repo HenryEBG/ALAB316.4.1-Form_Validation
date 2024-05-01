@@ -18,6 +18,18 @@ function alert(message) {
   }, 3000);
 }
 
+function success(message) {
+  const errorEl = document.getElementById('errorDisplay');
+  errorEl.style.display = 'block';
+  errorEl.style.backgroundColor='aqua'
+  errorEl.style.color="green"
+  errorEl.textContent = message;
+
+  setTimeout(() => {
+    errorEl.style.display = 'none';
+  }, 10000);
+}
+
 
 function validateUsername() {
   const twoOrMorePattern = /(.)(?<!1.)(?!.*\1)(.)(?<!3)/
@@ -148,12 +160,27 @@ function validateRegister(event) {
     event.returnValue = false;
     return false;
   } else {
-
+    //mensaje de exito
+    success('You are now register '+userName.value)
+    //guardar los datos
+    const user={}
+    user.userName=userName.value.toLowerCase()
+    user.password=password.value
+    user.email=email.value
+    .toLowerCase()
+    localStorage.push(user)
+    console.log(localStorage)
+    //limpiar el formulario
+    userName.value=""
+    password.value=""
+    passwordCheck.value=""
+    email.value=""
+    //hacer focus en el username
+    userName.focus()
   }
 
 
 }
-
 
 
 registerForm.addEventListener('submit', validateRegister)
