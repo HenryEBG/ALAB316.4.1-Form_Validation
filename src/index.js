@@ -5,7 +5,8 @@ const userName = registerForm.elements["username"]
 const email = registerForm.elements["email"]
 const password = registerForm.elements["password"]
 const passwordCheck = registerForm.elements["passwordCheck"]
-//const errorMessage = document.getElementById("errorDisplay")
+const terms = registerForm.elements["terms"]
+const localStorage=[]
 
 function alert(message) {
   const errorEl = document.getElementById('errorDisplay');
@@ -122,6 +123,15 @@ function validatePassword() {
 }
 
 
+function validateTerms(){
+  if(!terms.checked){
+    alert('The terms and conditions must be accepted.');
+    terms.focus()
+    return false;
+}
+return terms.value
+}
+
 function validateRegister(event) {
 
   event.preventDefault()
@@ -132,6 +142,12 @@ function validateRegister(event) {
     event.returnValue = false;
     return false;
   } else if (validatePassword() == false) {
+    event.returnValue = false;
+    return false;
+  } else if (validateTerms() == false) {
+    event.returnValue = false;
+    return false;
+  } else {
 
   }
 
